@@ -11,7 +11,7 @@ The application combines SIEM-style event processing, detection rules, asset con
 
 SecureFI runs locally with Python and SQLite. It also includes optional service adapters and cloud deployment assets. The current release accepts synthetic telemetry and uses simulated response actions, so the complete workflow can be demonstrated without customer data, production credentials or real cryptocurrency.
 
-![SecureFI overview showing active alerts, priority queue and exposure by source](https://kommodo.ai/i/1BhvCTVteeC6bKdxAXdz)
+![SecureFI overview showing active alerts, priority queue and exposure by source](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Overview.png)
 
 _My local SecureFI 2.1 workspace after loading the demonstration data: 55 events, 49 active alerts, eight alerts with priority scores of at least 80, and no open cases. These are fixture results, not live incidents or a detection-accuracy benchmark._
 
