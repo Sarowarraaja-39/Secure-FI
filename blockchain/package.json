@@ -1,0 +1,12 @@
+{
+  "name": "securefi-evidence-ledger",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22.13.0"},
+  "scripts": {
+    "chain": "hardhat node --hostname 127.0.0.1",
+    "compile": "node scripts/compile.mjs"
+  },
+  "devDependencies": {"hardhat": "3.19.0", "solc": "0.8.37"}
+}
