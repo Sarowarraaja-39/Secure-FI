@@ -64,7 +64,7 @@ The overview screenshot above shows the seeded starting position. No case has be
 
 ### 2. Alert inbox: investigate the observation
 
-![Alert inbox with search, severity, status and source filters](docs/screenshots/02-alert-inbox.png)
+![Alert inbox with search, severity, status and source filters](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Alert%20Inbox.png)
 
 The inbox combines detection name, rule ID, asset, severity, priority score, owner and status. Search works across detection, asset, owner and rule ID; filters narrow the queue by source, severity and disposition.
 
@@ -81,7 +81,7 @@ Severity contributes 15, 35, 60 or 80 for low, medium, high or critical. Asset c
 
 ### 3. Cases & response: make decisions accountable
 
-![Case workspace before an investigation or response request has been created](docs/screenshots/03-cases-response.png)
+![Case workspace before an investigation or response request has been created](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Cases%20%26%20responces.png)
 
 _This screenshot shows the initial empty investigation register and response queue. It demonstrates the entry point, rather than a completed incident response._
 
@@ -101,7 +101,7 @@ Repeated execution of a completed run is idempotent. Notifications remain within
 
 ### 4. Asset inventory: add business context
 
-![Asset inventory showing observed assets and their ownership, criticality and exposure](docs/screenshots/04-asset-inventory.png)
+![Asset inventory showing observed assets and their ownership, criticality and exposure](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Asset%20Inventory.png)
 
 The inventory discovers asset names from event observations. Registering an asset adds an accountable owner, environment, criticality and exposure assessment. That context changes existing alert priorities and enriches future processing, including queued events, without rewriting previously stored observations.
 
@@ -109,7 +109,7 @@ The screenshot shows discovered assets such as `lab-cloud`, `lab-endpoint` and `
 
 ### 5. Detection library: inspect the logic
 
-![Detection library showing rule IDs, sources, ATT&CK relationships and false-positive context](docs/screenshots/05-detection-library.png)
+![Detection library showing rule IDs, sources, ATT&CK relationships and false-positive context](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Detection%20library.png)
 
 The library contains **49 versioned detections** across identity, cloud, Kubernetes, endpoint, network, application, AI and Web3 observations.
 
@@ -121,7 +121,7 @@ The engine supports field conditions, count windows, event sequences and travel 
 
 ### 6. Cloud & Kubernetes: review configuration and workload exposure
 
-![Cloud and Kubernetes findings for RBAC, runtime socket access, secrets and image admission](docs/screenshots/06-cloud-kubernetes.png)
+![Cloud and Kubernetes findings for RBAC, runtime socket access, secrets and image admission](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Cloud%20%26%20Kubernetes.png)
 
 This view brings imported cloud and Kubernetes findings together. The screenshot includes cluster-admin bindings, host runtime-socket mounts, anonymous secrets access, unsigned image admission and deleted cloud audit evidence.
 
@@ -131,7 +131,7 @@ The repository separately includes Terraform modules, Kubernetes manifests, a He
 
 ### 7. AI security & models: monitor AI and govern its use
 
-![AI security findings including model-integrity, secret-output and agent-permission indicators](docs/screenshots/07-ai-security-models.png)
+![AI security findings including model-integrity, secret-output and agent-permission indicators](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/AI%20Security%20%26%20models.png)
 
 SecureFI separates three AI-related capabilities so their purpose and trust boundaries remain clear.
 
@@ -151,7 +151,7 @@ See [Model card](ml/MODEL_CARD.md) and [Integration setup](docs/INTEGRATIONS.md)
 
 ### 8. Web3 monitoring: distinguish transaction indicators from evidence integrity
 
-![Web3 alerts for a flagged recipient, approval-transfer sequence, unlimited approval and privileged contract event](docs/screenshots/08-web3-monitoring.png)
+![Web3 alerts for a flagged recipient, approval-transfer sequence, unlimited approval and privileged contract event](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Web3%20monitoring.png)
 
 The Web3 monitoring view evaluates synthetic wallet and contract observations. The screenshot shows all four supplied Web3 detection cases: a flagged recipient, rapid approval followed by transfer, an unlimited token approval and an unexpected privileged contract event.
 
@@ -161,7 +161,7 @@ These are separate workflows: a suspicious wallet pattern is an observation to i
 
 ### 9. Controls & evidence: preserve a reviewable record
 
-![Controls and evidence page with a local report, download controls and an unconfigured development registry](docs/screenshots/09-controls-evidence.png)
+![Controls and evidence page with a local report, download controls and an unconfigured development registry](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Controls%20%26%20Evidences.png)
 
 A generated report freezes alerts, cases, asset context, playbook records, assistant-draft provenance, the control register and an audit checkpoint. Its canonical JSON document has a SHA-256 digest. Later workspace changes do not rewrite that snapshot.
 
@@ -173,7 +173,7 @@ Audit verification checks the retained hash-linked records. Independently retain
 
 ### 10. Activity log: trace what happened
 
-![Activity log recording evidence generation, duplicate event ingestion and initial sample loading](docs/screenshots/10-activity-log.png)
+![Activity log recording evidence generation, duplicate event ingestion and initial sample loading](https://github.com/Sarowarraaja-39/Secure-FI/blob/main/Evn%20Evidence%20pic/Activity%20logs.png)
 
 The activity log records the actor, timestamp, action and supporting details for workspace changes. The interface displays the latest 150 tenant audit entries, while integrity verification examines the full retained chain.
 
