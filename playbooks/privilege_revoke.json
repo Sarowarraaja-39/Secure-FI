@@ -1,0 +1,27 @@
+{
+  "id": "privilege_revoke",
+  "title": "Unapproved privilege grant",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "privilege_removed",
+  "steps": [
+    "Preserve role-change event and prior role",
+    "Validate change approval",
+    "Request independent approval",
+    "Simulate role removal",
+    "Verify least privilege",
+    "Restore previous entitlement on rollback"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

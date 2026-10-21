@@ -1,0 +1,27 @@
+{
+  "id": "endpoint_isolate",
+  "title": "Endpoint compromise indicator",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "endpoint_isolated",
+  "steps": [
+    "Preserve process and agent telemetry IDs",
+    "Validate diagnostic or maintenance exception",
+    "Approve host isolation",
+    "Simulate endpoint isolation",
+    "Verify synthetic control-channel continuity",
+    "Record recovery and forensic follow-up"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

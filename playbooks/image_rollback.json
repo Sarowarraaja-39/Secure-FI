@@ -1,0 +1,27 @@
+{
+  "id": "image_rollback",
+  "title": "Untrusted application or container image",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "image_rolled_back",
+  "steps": [
+    "Preserve image digest and provenance references",
+    "Identify last approved synthetic artifact",
+    "Approve rollback",
+    "Simulate prior-image deployment",
+    "Verify synthetic health checks",
+    "Record dependency and SBOM follow-up"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

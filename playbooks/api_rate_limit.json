@@ -1,0 +1,27 @@
+{
+  "id": "api_rate_limit",
+  "title": "API abuse or authorisation failures",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "api_throttled",
+  "steps": [
+    "Preserve route and request aggregates",
+    "Exclude approved load-testing window",
+    "Approve scoped rate limit",
+    "Simulate client throttling",
+    "Verify legitimate synthetic request health",
+    "Set rollback and monitoring criteria"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

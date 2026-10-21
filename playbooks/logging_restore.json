@@ -1,0 +1,27 @@
+{
+  "id": "logging_restore",
+  "title": "Disabled or deleted security telemetry",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "logging_restored",
+  "steps": [
+    "Preserve last observed log configuration",
+    "Identify telemetry gap",
+    "Approve synthetic logging restoration",
+    "Simulate enabling audit pipeline",
+    "Verify synthetic log arrival",
+    "Record unresolved gap"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "securefi-development-checks",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Optional browser checks and formatting; not required to run SecureFI",
+  "scripts": {
+    "test:browser": "node tests/browser.cjs",
+    "format:ui": "prettier --write securefi/platform/static/* tests/browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "prettier": "3.6.2"
+  }
+}

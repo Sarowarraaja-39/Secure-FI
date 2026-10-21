@@ -1,0 +1,27 @@
+{
+  "id": "cloud_investigate",
+  "title": "Suspicious cloud API activity",
+  "version": 1,
+  "approval_required": true,
+  "approval_ttl_minutes": 60,
+  "separation_of_duties": true,
+  "lab_action": "cloud_review_hold",
+  "steps": [
+    "Preserve API event IDs and resource context",
+    "Validate planned change window",
+    "Approve synthetic resource hold",
+    "Simulate change freeze",
+    "Verify inventory state",
+    "Record investigation follow-up"
+  ],
+  "preconditions": [
+    "Synthetic tenant-owned resource",
+    "Open case and event references",
+    "Independent unexpired approval"
+  ],
+  "rollback": "Restore exact before-state captured in the same transaction",
+  "notification": "Persist in-app notification; no email, Slack or webhook send",
+  "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+  "timeout_seconds": 30,
+  "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+}

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "securefi-platform"
+version = "2.1.0"
+description = "Security operations, investigation and evidence management application"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = []
+[project.scripts]
+securefi = "securefi.__main__:main"
+[tool.setuptools.packages.find]
+include = ["securefi*"]
+[tool.setuptools.package-data]
+securefi = ["static/*", "EvidenceRegistry.json"]
+"securefi.platform" = ["*.json", "static/*"]
