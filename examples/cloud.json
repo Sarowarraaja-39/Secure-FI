@@ -1,0 +1,6 @@
+{
+  "resources": [
+    {"id": "demo-reporting-store", "public_access": true, "encrypted": true, "logging_enabled": false},
+    {"id": "demo-internal-store", "public_access": false, "encrypted": true, "logging_enabled": true}
+  ]
+}

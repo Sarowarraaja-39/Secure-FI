@@ -1,0 +1,9 @@
+{
+  "events": [
+    {"id": "evt-1", "type": "login_failed", "principal": "demo-admin", "at": "2026-10-12T10:00:10Z"},
+    {"id": "evt-2", "type": "login_failed", "principal": "demo-admin", "at": "2026-10-12T10:00:20Z"},
+    {"id": "evt-3", "type": "login_failed", "principal": "demo-admin", "at": "2026-10-12T10:01:20Z"},
+    {"id": "evt-4", "type": "login_failed", "principal": "demo-admin", "at": "2026-10-12T10:02:20Z"},
+    {"id": "evt-5", "type": "login_failed", "principal": "demo-admin", "at": "2026-10-12T10:03:20Z"}
+  ]
+}

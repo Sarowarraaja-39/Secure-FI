@@ -1,0 +1,24 @@
+{
+  "findings": [
+    {
+      "external_id": "EXAMPLE-CLOUD-01",
+      "title": "Storage access policy permits public reads",
+      "source": "Example cloud assessment",
+      "location": "synthetic-reporting-bucket",
+      "severity": "high",
+      "category": "cloud",
+      "known_exploited": false,
+      "recommendation": "Remove anonymous access, review intended consumers, and retest with an unauthenticated identity."
+    },
+    {
+      "external_id": "EXAMPLE-DAST-01",
+      "title": "Sensitive response is cacheable",
+      "source": "Example DAST export",
+      "location": "/account/statement",
+      "severity": "medium",
+      "category": "DAST",
+      "known_exploited": false,
+      "recommendation": "Set an appropriate cache policy and verify browser and intermediary behaviour with synthetic data."
+    }
+  ]
+}

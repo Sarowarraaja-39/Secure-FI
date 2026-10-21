@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [{
+    "tool": {"driver": {"name": "Example SAST", "rules": [{"id": "AUTH-001"}]}},
+    "results": [{
+      "ruleId": "AUTH-001",
+      "level": "error",
+      "message": {"text": "Administrative operation requires an explicit permission check"},
+      "locations": [{"physicalLocation": {"artifactLocation": {"uri": "payments/refunds.py"}, "region": {"startLine": 42}}}]
+    }]
+  }]
+}
