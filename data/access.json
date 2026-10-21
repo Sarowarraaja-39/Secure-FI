@@ -1,0 +1,40 @@
+{
+  "pseudonym_key": "-uL7RHJH0jgiQapaxtrRBj0qYUCymVPIF6udDL2jQzg",
+  "principals": {
+    "2e13e825bb694b187faaecb796c5ea1c47c827e0e85beacc3d51da7a1dabdd9d": {
+      "id": "lab-admin",
+      "role": "admin",
+      "tenant": "fintech-lab"
+    },
+    "6fca9f82b95ab3f97e2d266f3ecf62ed9ce6667ec8a786dbe2d39cf75b376b90": {
+      "id": "lab-analyst",
+      "role": "analyst",
+      "tenant": "fintech-lab"
+    },
+    "d7e7aba3d74610ead2c09d401ca7a90fa078bad0ce8e6ae703d9232c7ede8008": {
+      "id": "lab-approver",
+      "role": "approver",
+      "tenant": "fintech-lab"
+    },
+    "ccf4aa12ef82f5422f4b6202d9f8c2440235de986a9f8a8608eb87e63910c9bb": {
+      "id": "lab-cloud",
+      "role": "cloud",
+      "tenant": "fintech-lab"
+    },
+    "86e39279d66621c420eb7a32dbfc50bb018d70f0fbd276e40cae6dbab33c3db3": {
+      "id": "lab-compliance",
+      "role": "compliance",
+      "tenant": "fintech-lab"
+    },
+    "4e21233e55352f3d6e10428f3d00b78091acdeeaa9ed1629f951d3448eff8aa5": {
+      "id": "lab-executive",
+      "role": "executive",
+      "tenant": "fintech-lab"
+    },
+    "24b2f22b3a84112c84cf051ea0656b7cc671216336e863b2a795e5d12314e869": {
+      "id": "lab-ingestor",
+      "role": "ingestor",
+      "tenant": "fintech-lab"
+    }
+  }
+}

@@ -1,0 +1,237 @@
+[
+  {
+    "id": "SF-001-0",
+    "event_id": "SF-001-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:00:00+00:00",
+    "source": "identity",
+    "class_uid": 3002,
+    "category_uid": 3,
+    "activity_id": 99,
+    "type_uid": 300299,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-identity",
+      "principal": "1a656a9c953cbe14c682e6e2",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "login",
+      "result": "failure"
+    },
+    "ingested_at": "2026-10-21T15:55:03.002242+00:00"
+  },
+  {
+    "id": "SF-008-0",
+    "event_id": "SF-008-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:00:35+00:00",
+    "source": "cloud",
+    "class_uid": 6003,
+    "category_uid": 6,
+    "activity_id": 99,
+    "type_uid": 600399,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-cloud",
+      "principal": "5b840b3d48e649e04ec9232c",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "logging_update",
+      "logging": false
+    },
+    "ingested_at": "2026-10-21T15:55:03.002361+00:00"
+  },
+  {
+    "id": "SF-016-0",
+    "event_id": "SF-016-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:01:15+00:00",
+    "source": "kubernetes",
+    "class_uid": 6003,
+    "category_uid": 6,
+    "activity_id": 99,
+    "type_uid": 600399,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-kubernetes",
+      "principal": "016ec90e0c5c6754de091afb",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "rbac_bind",
+      "permission": "cluster-admin",
+      "approved": false
+    },
+    "ingested_at": "2026-10-21T15:55:03.002421+00:00"
+  },
+  {
+    "id": "SF-022-0",
+    "event_id": "SF-022-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:01:45+00:00",
+    "source": "endpoint",
+    "class_uid": 1007,
+    "category_uid": 1,
+    "activity_id": 99,
+    "type_uid": 100799,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-endpoint",
+      "principal": "fac334283a6e9931d23a2b56",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "process_start",
+      "command": "-enc"
+    },
+    "ingested_at": "2026-10-21T15:55:03.002463+00:00"
+  },
+  {
+    "id": "SF-026-0",
+    "event_id": "SF-026-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:02:05+00:00",
+    "source": "network",
+    "class_uid": 4001,
+    "category_uid": 4,
+    "activity_id": 99,
+    "type_uid": 400199,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-network",
+      "principal": "56fd724f31d09e63b529b7cc",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "connection",
+      "known_bad": true
+    },
+    "ingested_at": "2026-10-21T15:55:03.002489+00:00"
+  },
+  {
+    "id": "SF-030-0",
+    "event_id": "SF-030-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:02:25+00:00",
+    "source": "application",
+    "class_uid": 6003,
+    "category_uid": 6,
+    "activity_id": 99,
+    "type_uid": 600399,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-application",
+      "principal": "d62effa0dc0529ffc2e53e50",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "api_request",
+      "request_count": 1000
+    },
+    "ingested_at": "2026-10-21T15:55:03.002516+00:00"
+  },
+  {
+    "id": "SF-033-0",
+    "event_id": "SF-033-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:02:40+00:00",
+    "source": "ai",
+    "class_uid": 0,
+    "category_uid": 0,
+    "activity_id": 0,
+    "type_uid": 0,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-ai",
+      "principal": "293ff2262c75486f25dcd91a",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "inference",
+      "prompt_sha256": "25b36c48cd099978ade4667b856d74d96b5d212e7133bc7d5d59bce9030715b6",
+      "prompt_signals": "override"
+    },
+    "ingested_at": "2026-10-21T15:55:03.002954+00:00"
+  },
+  {
+    "id": "SF-042-0",
+    "event_id": "SF-042-0",
+    "tenant_id": "sample-tenant",
+    "time": "2026-10-21T10:03:25+00:00",
+    "source": "web3",
+    "class_uid": 0,
+    "category_uid": 0,
+    "activity_id": 0,
+    "type_uid": 0,
+    "severity_id": 1,
+    "metadata": {
+      "product": {
+        "name": "SecureFI",
+        "version": "2.1.0"
+      },
+      "normalisation": "ocsf-inspired/v1",
+      "synthetic": true
+    },
+    "data": {
+      "asset": "lab-web3",
+      "principal": "e74b1ce7ecfef21129901440",
+      "criticality": 4,
+      "internet_exposed": false,
+      "operation": "approval",
+      "allowance": 1000000,
+      "approved": false
+    },
+    "ingested_at": "2026-10-21T15:55:03.003057+00:00"
+  }
+]
