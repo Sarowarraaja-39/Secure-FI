@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SecureFI · Security Operations</title>
+    <link href="/style.css" rel="stylesheet" />
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <div id="login">
+      <div class="login-intro">
+        <div class="brand"><span class="brand-mark">SF</span> SecureFI</div>
+        <h1>Make every security<br />decision traceable.</h1>
+        <p>
+          Investigate alerts, coordinate response and preserve the evidence
+          behind your decisions.
+        </p>
+        <div class="login-note">
+          Security operations · Detection engineering · Evidence management
+        </div>
+      </div>
+      <form id="login-form">
+        <p class="eyebrow">WORKSPACE ACCESS</p>
+        <h2>Open your workspace</h2>
+        <p class="muted">
+          Your access token determines your organisation and permissions.
+        </p>
+        <label
+          >Access token<input
+            id="token"
+            type="password"
+            required
+            autocomplete="off"
+            placeholder="Paste your workspace token" /></label
+        ><button>Continue to SecureFI →</button>
+        <p id="login-error" role="alert"></p>
+        <small
+          >First run? Start the application with
+          <code>python start.py --demo</code> and save the access tokens printed
+          in your terminal.</small
+        >
+      </form>
+    </div>
+    <div id="workspace" hidden>
+      <aside>
+        <div class="brand"><span class="brand-mark">SF</span> SecureFI</div>
+        <div class="workspace-label">
+          <span class="status-dot"></span><span id="identity"></span>
+        </div>
+        <p class="nav-label">OPERATIONS</p>
+        <nav aria-label="Main navigation">
+          <button data-tab="soc">Overview</button
+          ><button data-tab="alerts">Alert inbox</button
+          ><button data-tab="cases">Cases & response</button
+          ><button data-tab="assets">Asset inventory</button>
+          <p class="nav-label">SECURITY COVERAGE</p>
+          <button data-tab="detections">Detection library</button
+          ><button data-tab="cloud">Cloud & Kubernetes</button
+          ><button data-tab="ai">AI security & models</button
+          ><button data-tab="web3">Web3 monitoring</button>
+          <p class="nav-label">ASSURANCE</p>
+          <button data-tab="compliance">Controls & evidence</button
+          ><button data-tab="activity">Activity log</button>
+        </nav>
+        <div class="aside-foot">
+          <span class="status-dot"></span> Local workspace
+          <small>SecureFI 2.1</small
+          ><button id="logout">Lock workspace ↗</button>
+        </div>
+      </aside>
+      <main>
+        <header>
+          <div>
+            <p class="eyebrow">SECURITY OPERATIONS WORKSPACE</p>
+            <h1 id="title">Overview</h1>
+            <p id="subtitle"></p>
+          </div>
+          <div class="actions">
+            <button id="refresh" class="secondary">↻ Refresh</button
+            ><button id="import">Import events</button>
+          </div>
+        </header>
+        <p id="notice" role="status" hidden></p>
+        <div id="content"></div>
+        <footer>
+          Response adapter: simulation. Telemetry imports use synthetic data in
+          this release. External integrations require explicit setup.
+        </footer>
+      </main>
+    </div>
+    <dialog id="modal">
+      <div class="modal-head">
+        <h2 id="modal-title"></h2>
+        <button id="close" class="secondary" aria-label="Close dialog">
+          ✕
+        </button>
+      </div>
+      <div id="modal-body"></div>
+      <p id="error" role="alert"></p>
+    </dialog>
+  </body>
+</html>

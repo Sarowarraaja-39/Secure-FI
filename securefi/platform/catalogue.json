@@ -1,0 +1,1767 @@
+[
+  {
+    "id": "SF-001",
+    "version": 1,
+    "name": "Failed sign-in burst",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "login"
+      },
+      {
+        "field": "data.result",
+        "op": "eq",
+        "value": "failure"
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1110",
+      "tactic": "credential-access",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1110/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "identity_containment",
+    "false_positives": "Expired test passwords or an incorrectly configured service",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required.",
+    "correlation": {
+      "kind": "count",
+      "group": "principal",
+      "seconds": 300,
+      "threshold": 5
+    }
+  },
+  {
+    "id": "SF-002",
+    "version": 1,
+    "name": "Impossible travel after successful sign-in",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "login"
+      },
+      {
+        "field": "data.result",
+        "op": "eq",
+        "value": "success"
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1078",
+      "tactic": "defense-evasion",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1078/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "identity_containment",
+    "false_positives": "VPN egress and inaccurate IP geolocation",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required.",
+    "correlation": {
+      "kind": "travel",
+      "group": "principal",
+      "seconds": 3600,
+      "threshold": 900
+    }
+  },
+  {
+    "id": "SF-003",
+    "version": 1,
+    "name": "Successful privileged sign-in without MFA",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "login"
+      },
+      {
+        "field": "data.result",
+        "op": "eq",
+        "value": "success"
+      },
+      {
+        "field": "data.privileged",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.mfa",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1078",
+      "tactic": "defense-evasion",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1078/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "identity_containment",
+    "false_positives": "Approved emergency access with separately documented controls",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-004",
+    "version": 1,
+    "name": "Unapproved role privilege grant",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "role_grant"
+      },
+      {
+        "field": "data.privileged",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1098",
+      "tactic": "persistence",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1098/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "privilege_revoke",
+    "false_positives": "Authorised change whose approval feed is delayed",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for privilege revoke.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-005",
+    "version": 1,
+    "name": "New long-lived access key",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "key_create"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1098.001",
+      "tactic": "persistence",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1098/001/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "key_rotation",
+    "false_positives": "New service onboarding",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for key rotation.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-006",
+    "version": 1,
+    "name": "MFA method changed without approval",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "mfa_change"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1556.006",
+      "tactic": "credential-access",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1556/006/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "identity_containment",
+    "false_positives": "Genuine user device replacement",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-007",
+    "version": 1,
+    "name": "Privileged dormant identity reactivated",
+    "source": "identity",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "account_enable"
+      },
+      {
+        "field": "data.privileged",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1078",
+      "tactic": "persistence",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1078/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "identity_containment",
+    "false_positives": "Scheduled temporary administrator access",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-008",
+    "version": 1,
+    "name": "Logging disabled in cloud account",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "logging_update"
+      },
+      {
+        "field": "data.logging",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1562.008",
+      "tactic": "defense-evasion",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1562/008/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "LOG"
+    ],
+    "playbook": "logging_restore",
+    "false_positives": "Lab account teardown",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for logging restore.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-009",
+    "version": 1,
+    "name": "Cloud storage allows public access",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "storage_update"
+      },
+      {
+        "field": "data.public",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1530",
+      "tactic": "collection",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1530/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "CONFIG"
+    ],
+    "playbook": "storage_restrict",
+    "false_positives": "Intentionally public static website",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for storage restrict.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-010",
+    "version": 1,
+    "name": "Unencrypted cloud storage",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "storage_update"
+      },
+      {
+        "field": "data.encrypted",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1530",
+      "tactic": "collection",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1530/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "storage_restrict",
+    "false_positives": "Provider-specific encryption field was not collected",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for storage restrict.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-011",
+    "version": 1,
+    "name": "Security group opens administrative port",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "security_group_update"
+      },
+      {
+        "field": "data.public",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.port",
+        "op": "in",
+        "value": [
+          22,
+          3389
+        ]
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1021",
+      "tactic": "lateral-movement",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1021/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "NETWORK"
+    ],
+    "playbook": "network_isolate",
+    "false_positives": "Approved temporary support tunnel",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-012",
+    "version": 1,
+    "name": "Unapproved cloud service discovery burst",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "service_list"
+      },
+      {
+        "field": "data.request_count",
+        "op": "gte",
+        "value": 100
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1526",
+      "tactic": "discovery",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1526/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "LOG"
+    ],
+    "playbook": "cloud_investigate",
+    "false_positives": "Asset discovery and inventory tools",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for cloud investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-013",
+    "version": 1,
+    "name": "Cloud secret retrieval by new principal",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "secret_read"
+      },
+      {
+        "field": "data.new_principal",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1555.006",
+      "tactic": "credential-access",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1555/006/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "key_rotation",
+    "false_positives": "First deployment of a new service identity",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for key rotation.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-014",
+    "version": 1,
+    "name": "Cloud bulk data export",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "data_export"
+      },
+      {
+        "field": "data.bytes_out",
+        "op": "gte",
+        "value": 10000000
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1537",
+      "tactic": "exfiltration",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1537/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "exfil_contain",
+    "false_positives": "Scheduled backup export",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for exfil contain.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-015",
+    "version": 1,
+    "name": "Unapproved resource provisioning in new region",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "resource_create"
+      },
+      {
+        "field": "data.new_region",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1578",
+      "tactic": "defense-evasion",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1578/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "ASSET"
+    ],
+    "playbook": "cloud_investigate",
+    "false_positives": "Disaster recovery exercise",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for cloud investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-016",
+    "version": 1,
+    "name": "Kubernetes cluster-admin binding",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "rbac_bind"
+      },
+      {
+        "field": "data.permission",
+        "op": "eq",
+        "value": "cluster-admin"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1098.006",
+      "tactic": "persistence",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1098/006/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "k8s_quarantine",
+    "false_positives": "Documented cluster bootstrap",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-017",
+    "version": 1,
+    "name": "Privileged container created",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "pod_create"
+      },
+      {
+        "field": "data.privileged",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1610",
+      "tactic": "defense-evasion",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1610/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "CONFIG"
+    ],
+    "playbook": "k8s_quarantine",
+    "false_positives": "Trusted node-level security or storage agent",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-018",
+    "version": 1,
+    "name": "Container mounts host runtime socket",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "pod_create"
+      },
+      {
+        "field": "data.mount",
+        "op": "contains",
+        "value": "docker.sock"
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1611",
+      "tactic": "privilege-escalation",
+      "relationship": "escape_indicator_not_proof",
+      "url": "https://attack.mitre.org/techniques/T1611/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "CONFIG"
+    ],
+    "playbook": "k8s_quarantine",
+    "false_positives": "Approved build agent requires a carefully scoped exception",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-019",
+    "version": 1,
+    "name": "Unexpected Kubernetes exec",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "exec"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1609",
+      "tactic": "execution",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1609/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "LOG"
+    ],
+    "playbook": "k8s_quarantine",
+    "false_positives": "Interactive incident troubleshooting",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-020",
+    "version": 1,
+    "name": "Anonymous Kubernetes secrets access",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "secret_read"
+      },
+      {
+        "field": "data.anonymous",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1552.007",
+      "tactic": "credential-access",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1552/007/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "k8s_quarantine",
+    "false_positives": "Mislabelled service-account authentication",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-021",
+    "version": 1,
+    "name": "Kubernetes untrusted image deployed",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "pod_create"
+      },
+      {
+        "field": "data.trusted_image",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1610",
+      "tactic": "defense-evasion",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1610/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "SDLC"
+    ],
+    "playbook": "image_rollback",
+    "false_positives": "New image digest not yet approved",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for image rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-022",
+    "version": 1,
+    "name": "Encoded PowerShell process",
+    "source": "endpoint",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "process_start"
+      },
+      {
+        "field": "data.command",
+        "op": "contains",
+        "value": "-enc"
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1059.001",
+      "tactic": "execution",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1059/001/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "LOG"
+    ],
+    "playbook": "endpoint_isolate",
+    "false_positives": "Approved administrative script",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-023",
+    "version": 1,
+    "name": "Credential-store access indicator",
+    "source": "endpoint",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "file_read"
+      },
+      {
+        "field": "data.resource",
+        "op": "contains",
+        "value": "lsass"
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1003",
+      "tactic": "credential-access",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1003/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "endpoint_isolate",
+    "false_positives": "Authorised diagnostic collection",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-024",
+    "version": 1,
+    "name": "Unapproved scheduled task creation",
+    "source": "endpoint",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "task_create"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1053.005",
+      "tactic": "persistence",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1053/005/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "CONFIG"
+    ],
+    "playbook": "endpoint_isolate",
+    "false_positives": "Software updater installation",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-025",
+    "version": 1,
+    "name": "Endpoint agent logging stopped",
+    "source": "endpoint",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "agent_stop"
+      },
+      {
+        "field": "data.logging",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1562.001",
+      "tactic": "defense-evasion",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1562/001/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "LOG"
+    ],
+    "playbook": "endpoint_isolate",
+    "false_positives": "Agent upgrade window",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-026",
+    "version": 1,
+    "name": "Connections to known bad destination",
+    "source": "network",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "connection"
+      },
+      {
+        "field": "data.known_bad",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1071.001",
+      "tactic": "command-and-control",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1071/001/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "NETWORK"
+    ],
+    "playbook": "network_isolate",
+    "false_positives": "Stale or incorrect threat-intelligence label",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-027",
+    "version": 1,
+    "name": "DNS high-volume lookup indicator",
+    "source": "network",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "dns"
+      },
+      {
+        "field": "data.request_count",
+        "op": "gte",
+        "value": 500
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1071.004",
+      "tactic": "command-and-control",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1071/004/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "NETWORK"
+    ],
+    "playbook": "network_isolate",
+    "false_positives": "Resolver aggregation and caching changes",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-028",
+    "version": 1,
+    "name": "Unapproved outbound bulk transfer",
+    "source": "network",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "connection"
+      },
+      {
+        "field": "data.bytes_out",
+        "op": "gte",
+        "value": 50000000
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1041",
+      "tactic": "exfiltration",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1041/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "exfil_contain",
+    "false_positives": "Large approved data export",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for exfil contain.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-029",
+    "version": 1,
+    "name": "Broad internal service scan",
+    "source": "network",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "connection"
+      },
+      {
+        "field": "data.distinct_targets",
+        "op": "gte",
+        "value": 50
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1046",
+      "tactic": "discovery",
+      "relationship": "direct",
+      "url": "https://attack.mitre.org/techniques/T1046/"
+    },
+    "confidence": 0.8,
+    "controls": [
+      "NETWORK"
+    ],
+    "playbook": "network_isolate",
+    "false_positives": "Vulnerability scanner or service discovery",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-030",
+    "version": 1,
+    "name": "Application API request burst",
+    "source": "application",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "api_request"
+      },
+      {
+        "field": "data.request_count",
+        "op": "gte",
+        "value": 1000
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1499",
+      "tactic": "impact",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1499/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "NETWORK"
+    ],
+    "playbook": "api_rate_limit",
+    "false_positives": "Load test and scheduled batch traffic",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for api rate limit.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-031",
+    "version": 1,
+    "name": "Application authorisation failures",
+    "source": "application",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "api_request"
+      },
+      {
+        "field": "data.result",
+        "op": "eq",
+        "value": "denied"
+      },
+      {
+        "field": "data.failed_count",
+        "op": "gte",
+        "value": 30
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1190",
+      "tactic": "initial-access",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1190/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "api_rate_limit",
+    "false_positives": "Broken client permissions",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for api rate limit.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-032",
+    "version": 1,
+    "name": "Application dependency hash mismatch",
+    "source": "application",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "artifact_load"
+      },
+      {
+        "field": "data.model_hash",
+        "op": "diff",
+        "value": "data.expected_hash"
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1195.002",
+      "tactic": "initial-access",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1195/002/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "SDLC"
+    ],
+    "playbook": "image_rollback",
+    "false_positives": "Expected manifest not updated after approved build",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for image rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-033",
+    "version": 1,
+    "name": "AI prompt instruction override indicator",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "inference"
+      },
+      {
+        "field": "data.prompt_signals",
+        "op": "contains",
+        "value": "override"
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1190",
+      "tactic": "initial-access",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1190/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "MODEL"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Benign security research or quoted malicious input",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-034",
+    "version": 1,
+    "name": "AI jailbreak indicator",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "inference"
+      },
+      {
+        "field": "data.prompt_signals",
+        "op": "contains",
+        "value": "jailbreak"
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1190",
+      "tactic": "initial-access",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1190/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "MODEL"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Safety benchmark prompts",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-035",
+    "version": 1,
+    "name": "AI output contains secret indicator",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "inference"
+      },
+      {
+        "field": "data.output_signals",
+        "op": "contains",
+        "value": "secret"
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1567",
+      "tactic": "exfiltration",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1567/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Synthetic canary or documentation snippet",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-036",
+    "version": 1,
+    "name": "AI agent requests disallowed tool",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "tool_call"
+      },
+      {
+        "field": "data.allowed_tool",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1059",
+      "tactic": "execution",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1059/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Policy too restrictive for a legitimate task",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-037",
+    "version": 1,
+    "name": "Shadow AI model observed",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "inference"
+      },
+      {
+        "field": "data.approved_model",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1071.001",
+      "tactic": "command-and-control",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1071/001/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "ASSET"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "New approved endpoint absent from inventory",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-038",
+    "version": 1,
+    "name": "Model artifact digest mismatch",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "model_load"
+      },
+      {
+        "field": "data.model_hash",
+        "op": "diff",
+        "value": "data.expected_hash"
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1565.001",
+      "tactic": "impact",
+      "relationship": "integrity_indicator",
+      "url": "https://attack.mitre.org/techniques/T1565/001/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "MODEL"
+    ],
+    "playbook": "model_rollback",
+    "false_positives": "Approved retraining without manifest promotion",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-039",
+    "version": 1,
+    "name": "AI feature distribution drift",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "model_metrics"
+      },
+      {
+        "field": "data.drift",
+        "op": "gte",
+        "value": 0.25
+      }
+    ],
+    "severity": "medium",
+    "attack": {
+      "technique": "T1565.001",
+      "tactic": "impact",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1565/001/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "MODEL"
+    ],
+    "playbook": "model_rollback",
+    "false_positives": "Seasonal business change; drift is not proof of an attack",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-040",
+    "version": 1,
+    "name": "Training error spike indicator",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "training"
+      },
+      {
+        "field": "data.training_error",
+        "op": "gte",
+        "value": 0.5
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1565.001",
+      "tactic": "impact",
+      "relationship": "poisoning_indicator_not_proof",
+      "url": "https://attack.mitre.org/techniques/T1565/001/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "MODEL"
+    ],
+    "playbook": "model_rollback",
+    "false_positives": "Bad hyperparameters, software defect or naturally difficult data",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-041",
+    "version": 1,
+    "name": "Unsigned model deployed",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "model_load"
+      },
+      {
+        "field": "data.signed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1195.002",
+      "tactic": "initial-access",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1195/002/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "SDLC"
+    ],
+    "playbook": "model_rollback",
+    "false_positives": "Research model not yet enrolled",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-042",
+    "version": 1,
+    "name": "Wallet unlimited token approval",
+    "source": "web3",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "approval"
+      },
+      {
+        "field": "data.allowance",
+        "op": "gte",
+        "value": 1000000
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1657",
+      "tactic": "impact",
+      "relationship": "web3_analogy",
+      "url": "https://attack.mitre.org/techniques/T1657/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "wallet_review",
+    "false_positives": "Test router requires a broad approval",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-043",
+    "version": 1,
+    "name": "Wallet transfer to flagged recipient",
+    "source": "web3",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "transfer"
+      },
+      {
+        "field": "data.known_bad",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1657",
+      "tactic": "impact",
+      "relationship": "web3_analogy",
+      "url": "https://attack.mitre.org/techniques/T1657/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IR"
+    ],
+    "playbook": "wallet_review",
+    "false_positives": "Incorrect lab blocklist entry",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-044",
+    "version": 1,
+    "name": "Wallet rapid approval then transfer",
+    "source": "web3",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "transfer"
+      },
+      {
+        "field": "data.amount",
+        "op": "fraction_gte",
+        "value": {
+          "field": "data.balance_before",
+          "ratio": 0.9
+        }
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1657",
+      "tactic": "impact",
+      "relationship": "web3_analogy",
+      "url": "https://attack.mitre.org/techniques/T1657/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IR"
+    ],
+    "playbook": "wallet_review",
+    "false_positives": "User intentionally sweeps a test wallet",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required.",
+    "correlation": {
+      "kind": "sequence",
+      "group": "principal",
+      "seconds": 120,
+      "previous_operation": "approval"
+    }
+  },
+  {
+    "id": "SF-045",
+    "version": 1,
+    "name": "Contract emits unexpected privileged event",
+    "source": "web3",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "contract_event"
+      },
+      {
+        "field": "data.event_name",
+        "op": "eq",
+        "value": "OwnershipTransferred"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1098",
+      "tactic": "persistence",
+      "relationship": "web3_analogy",
+      "url": "https://attack.mitre.org/techniques/T1098/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "IAM"
+    ],
+    "playbook": "wallet_review",
+    "false_positives": "Expected contract administration",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-046",
+    "version": 1,
+    "name": "Unapproved model endpoint is public",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "deployment"
+      },
+      {
+        "field": "data.public",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "field": "data.mfa",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1190",
+      "tactic": "initial-access",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1190/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "CONFIG"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Intentional public inference gateway with alternate auth",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-047",
+    "version": 1,
+    "name": "AI agent requests external exfiltration URL",
+    "source": "ai",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "inference"
+      },
+      {
+        "field": "data.prompt_signals",
+        "op": "contains",
+        "value": "exfil"
+      },
+      {
+        "field": "data.allowed_tool",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1567",
+      "tactic": "exfiltration",
+      "relationship": "analogy_not_attack_specific",
+      "url": "https://attack.mitre.org/techniques/T1567/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "DATA"
+    ],
+    "playbook": "ai_investigate",
+    "false_positives": "Legitimate external reference request",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-048",
+    "version": 1,
+    "name": "Cloud audit evidence deleted",
+    "source": "cloud",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "log_delete"
+      },
+      {
+        "field": "data.approved",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "critical",
+    "attack": {
+      "technique": "T1070.004",
+      "tactic": "defense-evasion",
+      "relationship": "behavioural_indicator",
+      "url": "https://attack.mitre.org/techniques/T1070/004/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "AUDIT"
+    ],
+    "playbook": "logging_restore",
+    "false_positives": "Retention job with incomplete change metadata",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for logging restore.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  },
+  {
+    "id": "SF-049",
+    "version": 1,
+    "name": "Container unsigned image admission",
+    "source": "kubernetes",
+    "conditions": [
+      {
+        "field": "data.operation",
+        "op": "eq",
+        "value": "pod_create"
+      },
+      {
+        "field": "data.signed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "severity": "high",
+    "attack": {
+      "technique": "T1195.002",
+      "tactic": "initial-access",
+      "relationship": "enabling_control",
+      "url": "https://attack.mitre.org/techniques/T1195/002/"
+    },
+    "confidence": 0.6,
+    "controls": [
+      "SDLC"
+    ],
+    "playbook": "image_rollback",
+    "false_positives": "Development image not signed yet",
+    "response": "Open a case, preserve the event IDs, validate context, then request approval for image rollback.",
+    "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+    "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+  }
+]

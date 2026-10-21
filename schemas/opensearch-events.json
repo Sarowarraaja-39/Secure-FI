@@ -1,0 +1,24 @@
+{
+  "index_patterns": ["securefi-events-*"],
+  "template": {
+    "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+    "mappings": {
+      "dynamic": "strict",
+      "properties": {
+        "id": {"type": "keyword"}, "event_id": {"type": "keyword"},
+        "tenant_id": {"type": "keyword"}, "time": {"type": "date"},
+        "source": {"type": "keyword"}, "class_uid": {"type": "integer"},
+        "category_uid": {"type": "integer"}, "activity_id": {"type": "integer"},
+        "type_uid": {"type": "integer"}, "severity_id": {"type": "integer"},
+        "ingested_at": {"type": "date"}, "metadata": {"type": "object", "enabled": false},
+        "data": {"dynamic": false, "properties": {
+          "operation": {"type": "keyword"}, "asset": {"type": "keyword"},
+          "principal": {"type": "keyword"}, "src_ip": {"type": "keyword"},
+          "result": {"type": "keyword"}, "bytes_out": {"type": "long"},
+          "request_count": {"type": "integer"}, "model_id": {"type": "keyword"},
+          "prompt_signals": {"type": "keyword"}, "output_signals": {"type": "keyword"}
+        }}
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SecureFI · Security workbench</title><link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script></head>
+<body>
+<div id="login" class="login"><div class="login-card"><div class="brand">S<span>F</span> / SecureFI</div><h1>Security workbench</h1><p>A local workspace for exposures, remediation and control evidence.</p><form id="login-form"><label>Access token<input id="token" type="password" autocomplete="off" required placeholder="Paste the token from your terminal"></label><button>Open workspace →</button></form><p class="muted">Single-user portfolio edition · Runs on your computer</p><p id="login-error" role="alert"></p></div></div>
+<div id="workspace" hidden>
+<aside><div class="brand">S<span>F</span> / SecureFI</div><p class="eyebrow">SECURITY OPERATIONS</p><nav aria-label="Main navigation"><button data-tab="overview" class="active">Overview</button><button data-tab="findings">Exposure register</button><button data-tab="assets">Assets & software</button><button data-tab="controls">Controls & evidence</button><button data-tab="activity">Activity log</button><button data-tab="integrations">AI & evidence ledger</button></nav><div class="aside-foot"><span class="dot"></span> Local workspace<p>Portfolio edition · v1.1</p><button id="logout" class="quiet">Lock workspace</button></div></aside>
+<main><header><div><p class="eyebrow">SECUREFI / FINTECH SECURITY</p><h1 id="page-title">Overview</h1></div><div class="actions"><button id="refresh" class="secondary">Refresh</button><button id="export" class="secondary">Export snapshot</button><button id="open-import">Import report</button></div></header><p id="notice" role="status" class="notice" hidden></p><div id="content"></div><footer>Analyst workbench · Framework links are illustrative control themes, not a compliance assessment.</footer></main>
+</div>
+<dialog id="modal"><div class="modal-head"><h2 id="modal-title"></h2><button id="close-modal" class="secondary" aria-label="Close dialog">✕</button></div><div id="modal-content"></div><p id="modal-error" role="alert"></p></dialog>
+</body></html>

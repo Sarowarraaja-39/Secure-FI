@@ -1,0 +1,407 @@
+[
+  {
+    "id": "identity_containment",
+    "title": "Suspected identity compromise",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "identity_restricted",
+    "steps": [
+      "Preserve sign-in IDs and pseudonymous identity",
+      "Review MFA and travel context",
+      "Request independent approval",
+      "Simulate session revocation and identity restriction",
+      "Verify synthetic identity state",
+      "Record recovery conditions"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "privilege_revoke",
+    "title": "Unapproved privilege grant",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "privilege_removed",
+    "steps": [
+      "Preserve role-change event and prior role",
+      "Validate change approval",
+      "Request independent approval",
+      "Simulate role removal",
+      "Verify least privilege",
+      "Restore previous entitlement on rollback"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "key_rotation",
+    "title": "Potential service-key compromise",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "key_rotated",
+    "steps": [
+      "Preserve key reference without secret material",
+      "Identify dependent synthetic services",
+      "Approve bounded rotation",
+      "Simulate replacement key generation",
+      "Verify synthetic dependency health",
+      "Record rotation decision"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "storage_restrict",
+    "title": "Public or unencrypted storage",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "storage_private",
+    "steps": [
+      "Snapshot synthetic storage configuration",
+      "Confirm intended consumers and data classification",
+      "Approve access-policy change",
+      "Simulate private storage baseline",
+      "Verify public-read denial",
+      "Retain rollback configuration"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "network_isolate",
+    "title": "Network threat containment",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "egress_restricted",
+    "steps": [
+      "Preserve flow IDs and destination indicators",
+      "Check allowlisted scanning activity",
+      "Approve limited egress restriction",
+      "Simulate isolation policy",
+      "Verify simulated allow/deny paths",
+      "Record expiry and recovery owner"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "cloud_investigate",
+    "title": "Suspicious cloud API activity",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "cloud_review_hold",
+    "steps": [
+      "Preserve API event IDs and resource context",
+      "Validate planned change window",
+      "Approve synthetic resource hold",
+      "Simulate change freeze",
+      "Verify inventory state",
+      "Record investigation follow-up"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "logging_restore",
+    "title": "Disabled or deleted security telemetry",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "logging_restored",
+    "steps": [
+      "Preserve last observed log configuration",
+      "Identify telemetry gap",
+      "Approve synthetic logging restoration",
+      "Simulate enabling audit pipeline",
+      "Verify synthetic log arrival",
+      "Record unresolved gap"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "k8s_quarantine",
+    "title": "Kubernetes security incident",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "namespace_quarantined",
+    "steps": [
+      "Preserve pod and RBAC event IDs",
+      "Identify workload owner and dependencies",
+      "Approve namespace-scoped response",
+      "Simulate namespace network quarantine",
+      "Verify synthetic isolation",
+      "Record safe recovery manifest"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "endpoint_isolate",
+    "title": "Endpoint compromise indicator",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "endpoint_isolated",
+    "steps": [
+      "Preserve process and agent telemetry IDs",
+      "Validate diagnostic or maintenance exception",
+      "Approve host isolation",
+      "Simulate endpoint isolation",
+      "Verify synthetic control-channel continuity",
+      "Record recovery and forensic follow-up"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "exfil_contain",
+    "title": "Potential data exfiltration",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "export_paused",
+    "steps": [
+      "Preserve transfer counters and event hashes",
+      "Assess data classification without collecting content",
+      "Approve bounded export pause",
+      "Simulate export suspension",
+      "Verify synthetic transfer stop",
+      "Prepare reportability assessment draft"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "api_rate_limit",
+    "title": "API abuse or authorisation failures",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "api_throttled",
+    "steps": [
+      "Preserve route and request aggregates",
+      "Exclude approved load-testing window",
+      "Approve scoped rate limit",
+      "Simulate client throttling",
+      "Verify legitimate synthetic request health",
+      "Set rollback and monitoring criteria"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "image_rollback",
+    "title": "Untrusted application or container image",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "image_rolled_back",
+    "steps": [
+      "Preserve image digest and provenance references",
+      "Identify last approved synthetic artifact",
+      "Approve rollback",
+      "Simulate prior-image deployment",
+      "Verify synthetic health checks",
+      "Record dependency and SBOM follow-up"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "ai_investigate",
+    "title": "AI prompt, data or tool abuse",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "agent_restricted",
+    "steps": [
+      "Preserve prompt/output hashes and signal labels only",
+      "Inspect tool permissions and model inventory",
+      "Approve temporary tool restriction",
+      "Simulate disabling risky agent capability",
+      "Verify benign and adversarial synthetic tasks",
+      "Document heuristic limits"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "model_rollback",
+    "title": "AI model integrity or drift alert",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "model_rolled_back",
+    "steps": [
+      "Preserve model manifest and drift aggregates",
+      "Distinguish benign shift from integrity compromise",
+      "Approve model rollback",
+      "Simulate previous approved model selection",
+      "Verify synthetic holdout evaluation",
+      "Require signed retraining manifest before promotion"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  },
+  {
+    "id": "wallet_review",
+    "title": "Simulated wallet or contract anomaly",
+    "version": 1,
+    "approval_required": true,
+    "approval_ttl_minutes": 60,
+    "separation_of_duties": true,
+    "lab_action": "wallet_review_hold",
+    "steps": [
+      "Preserve development-chain transaction references",
+      "Verify chain ID 31337 and synthetic balance",
+      "Approve lab-only response",
+      "Mark wallet held for review in local state",
+      "Verify no real transaction is sent",
+      "Record scope and recovery checklist"
+    ],
+    "preconditions": [
+      "Synthetic tenant-owned resource",
+      "Open case and event references",
+      "Independent unexpired approval"
+    ],
+    "rollback": "Restore exact before-state captured in the same transaction",
+    "notification": "Persist in-app notification; no email, Slack or webhook send",
+    "evidence": "Audit run ID, requester, approver, before-state, step results and timestamp",
+    "timeout_seconds": 30,
+    "success_measure": "Expected synthetic resource state is observed; this does not establish real containment"
+  }
+]

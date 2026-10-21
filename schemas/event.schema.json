@@ -1,0 +1,17 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://securefi.invalid/schemas/ocsf-inspired-v1",
+  "title":"SecureFI OCSF-inspired internal event",
+  "type":"object",
+  "required":["event_id","tenant_id","time","source","class_uid","category_uid","activity_id","type_uid","severity_id","metadata","data"],
+  "properties":{
+    "id":{"type":"string"},"event_id":{"type":"string","minLength":1,"maxLength":120},
+    "tenant_id":{"type":"string"},"time":{"type":"string","format":"date-time"},
+    "source":{"enum":["cloud","identity","network","endpoint","application","kubernetes","web3","ai"]},
+    "class_uid":{"type":"integer"},"category_uid":{"type":"integer"},"activity_id":{"type":"integer"},"type_uid":{"type":"integer"},"severity_id":{"type":"integer"},
+    "metadata":{"type":"object","required":["product","normalisation","synthetic"],"properties":{"synthetic":{"const":true},"normalisation":{"const":"ocsf-inspired/v1"},"product":{"type":"object"}}},
+    "data":{"type":"object","required":["operation"],"additionalProperties":{"type":["string","number","boolean"]}},
+    "ingested_at":{"type":"string","format":"date-time"}
+  },
+  "additionalProperties":false
+}
