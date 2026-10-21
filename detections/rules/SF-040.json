@@ -1,0 +1,34 @@
+{
+  "id": "SF-040",
+  "version": 1,
+  "name": "Training error spike indicator",
+  "source": "ai",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "training"
+    },
+    {
+      "field": "data.training_error",
+      "op": "gte",
+      "value": 0.5
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1565.001",
+    "tactic": "impact",
+    "relationship": "poisoning_indicator_not_proof",
+    "url": "https://attack.mitre.org/techniques/T1565/001/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "MODEL"
+  ],
+  "playbook": "model_rollback",
+  "false_positives": "Bad hyperparameters, software defect or naturally difficult data",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

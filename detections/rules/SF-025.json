@@ -1,0 +1,34 @@
+{
+  "id": "SF-025",
+  "version": 1,
+  "name": "Endpoint agent logging stopped",
+  "source": "endpoint",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "agent_stop"
+    },
+    {
+      "field": "data.logging",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1562.001",
+    "tactic": "defense-evasion",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1562/001/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "LOG"
+  ],
+  "playbook": "endpoint_isolate",
+  "false_positives": "Agent upgrade window",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

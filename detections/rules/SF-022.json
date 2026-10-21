@@ -1,0 +1,34 @@
+{
+  "id": "SF-022",
+  "version": 1,
+  "name": "Encoded PowerShell process",
+  "source": "endpoint",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "process_start"
+    },
+    {
+      "field": "data.command",
+      "op": "contains",
+      "value": "-enc"
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1059.001",
+    "tactic": "execution",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1059/001/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "LOG"
+  ],
+  "playbook": "endpoint_isolate",
+  "false_positives": "Approved administrative script",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

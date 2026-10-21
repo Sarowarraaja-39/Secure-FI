@@ -1,0 +1,39 @@
+{
+  "id": "SF-015",
+  "version": 1,
+  "name": "Unapproved resource provisioning in new region",
+  "source": "cloud",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "resource_create"
+    },
+    {
+      "field": "data.new_region",
+      "op": "eq",
+      "value": true
+    },
+    {
+      "field": "data.approved",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "medium",
+  "attack": {
+    "technique": "T1578",
+    "tactic": "defense-evasion",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1578/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "ASSET"
+  ],
+  "playbook": "cloud_investigate",
+  "false_positives": "Disaster recovery exercise",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for cloud investigate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

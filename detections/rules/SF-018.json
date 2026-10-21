@@ -1,0 +1,34 @@
+{
+  "id": "SF-018",
+  "version": 1,
+  "name": "Container mounts host runtime socket",
+  "source": "kubernetes",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "pod_create"
+    },
+    {
+      "field": "data.mount",
+      "op": "contains",
+      "value": "docker.sock"
+    }
+  ],
+  "severity": "critical",
+  "attack": {
+    "technique": "T1611",
+    "tactic": "privilege-escalation",
+    "relationship": "escape_indicator_not_proof",
+    "url": "https://attack.mitre.org/techniques/T1611/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "CONFIG"
+  ],
+  "playbook": "k8s_quarantine",
+  "false_positives": "Approved build agent requires a carefully scoped exception",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

@@ -1,0 +1,39 @@
+{
+  "id": "SF-004",
+  "version": 1,
+  "name": "Unapproved role privilege grant",
+  "source": "identity",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "role_grant"
+    },
+    {
+      "field": "data.privileged",
+      "op": "eq",
+      "value": true
+    },
+    {
+      "field": "data.approved",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1098",
+    "tactic": "persistence",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1098/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "IAM"
+  ],
+  "playbook": "privilege_revoke",
+  "false_positives": "Authorised change whose approval feed is delayed",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for privilege revoke.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

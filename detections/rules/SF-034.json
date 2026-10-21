@@ -1,0 +1,34 @@
+{
+  "id": "SF-034",
+  "version": 1,
+  "name": "AI jailbreak indicator",
+  "source": "ai",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "inference"
+    },
+    {
+      "field": "data.prompt_signals",
+      "op": "contains",
+      "value": "jailbreak"
+    }
+  ],
+  "severity": "medium",
+  "attack": {
+    "technique": "T1190",
+    "tactic": "initial-access",
+    "relationship": "analogy_not_attack_specific",
+    "url": "https://attack.mitre.org/techniques/T1190/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "MODEL"
+  ],
+  "playbook": "ai_investigate",
+  "false_positives": "Safety benchmark prompts",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

@@ -1,0 +1,34 @@
+{
+  "id": "SF-023",
+  "version": 1,
+  "name": "Credential-store access indicator",
+  "source": "endpoint",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "file_read"
+    },
+    {
+      "field": "data.resource",
+      "op": "contains",
+      "value": "lsass"
+    }
+  ],
+  "severity": "critical",
+  "attack": {
+    "technique": "T1003",
+    "tactic": "credential-access",
+    "relationship": "behavioural_indicator",
+    "url": "https://attack.mitre.org/techniques/T1003/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "IAM"
+  ],
+  "playbook": "endpoint_isolate",
+  "false_positives": "Authorised diagnostic collection",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for endpoint isolate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

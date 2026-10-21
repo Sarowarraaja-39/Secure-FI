@@ -1,0 +1,39 @@
+{
+  "id": "SF-047",
+  "version": 1,
+  "name": "AI agent requests external exfiltration URL",
+  "source": "ai",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "inference"
+    },
+    {
+      "field": "data.prompt_signals",
+      "op": "contains",
+      "value": "exfil"
+    },
+    {
+      "field": "data.allowed_tool",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1567",
+    "tactic": "exfiltration",
+    "relationship": "analogy_not_attack_specific",
+    "url": "https://attack.mitre.org/techniques/T1567/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "DATA"
+  ],
+  "playbook": "ai_investigate",
+  "false_positives": "Legitimate external reference request",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for ai investigate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

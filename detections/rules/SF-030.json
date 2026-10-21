@@ -1,0 +1,34 @@
+{
+  "id": "SF-030",
+  "version": 1,
+  "name": "Application API request burst",
+  "source": "application",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "api_request"
+    },
+    {
+      "field": "data.request_count",
+      "op": "gte",
+      "value": 1000
+    }
+  ],
+  "severity": "medium",
+  "attack": {
+    "technique": "T1499",
+    "tactic": "impact",
+    "relationship": "behavioural_indicator",
+    "url": "https://attack.mitre.org/techniques/T1499/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "NETWORK"
+  ],
+  "playbook": "api_rate_limit",
+  "false_positives": "Load test and scheduled batch traffic",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for api rate limit.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

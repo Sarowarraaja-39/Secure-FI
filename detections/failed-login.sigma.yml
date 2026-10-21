@@ -1,0 +1,29 @@
+title: SecureFI Authentication Failure Selection
+id: 2c296f1a-a74a-48be-94da-f8a6758c3315
+name: securefi_auth_failure
+status: experimental
+description: Selection rule for the accompanying event-count correlation; synthetic SecureFI schema.
+author: SecureFI contributors
+logsource:
+  product: securefi
+  category: authentication
+detection:
+  selection:
+    source: identity
+    data.operation: login
+    data.result: failure
+  condition: selection
+falsepositives: [Expired credentials, Misconfigured service]
+level: medium
+tags: [attack.credential-access, attack.t1110]
+---
+title: SecureFI Failed Login Burst
+id: d7953ee7-0276-4f0d-8677-284daedcf2bf
+status: experimental
+correlation:
+  type: event_count
+  rules: [securefi_auth_failure]
+  group-by: [tenant_id, data.principal]
+  timespan: 5m
+  condition: {gte: 5}
+level: high

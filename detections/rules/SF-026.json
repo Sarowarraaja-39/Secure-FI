@@ -1,0 +1,34 @@
+{
+  "id": "SF-026",
+  "version": 1,
+  "name": "Connections to known bad destination",
+  "source": "network",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "connection"
+    },
+    {
+      "field": "data.known_bad",
+      "op": "eq",
+      "value": true
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1071.001",
+    "tactic": "command-and-control",
+    "relationship": "behavioural_indicator",
+    "url": "https://attack.mitre.org/techniques/T1071/001/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "NETWORK"
+  ],
+  "playbook": "network_isolate",
+  "false_positives": "Stale or incorrect threat-intelligence label",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

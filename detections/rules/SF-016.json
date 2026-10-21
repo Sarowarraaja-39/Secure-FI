@@ -1,0 +1,39 @@
+{
+  "id": "SF-016",
+  "version": 1,
+  "name": "Kubernetes cluster-admin binding",
+  "source": "kubernetes",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "rbac_bind"
+    },
+    {
+      "field": "data.permission",
+      "op": "eq",
+      "value": "cluster-admin"
+    },
+    {
+      "field": "data.approved",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "critical",
+  "attack": {
+    "technique": "T1098.006",
+    "tactic": "persistence",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1098/006/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "IAM"
+  ],
+  "playbook": "k8s_quarantine",
+  "false_positives": "Documented cluster bootstrap",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for k8s quarantine.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

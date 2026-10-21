@@ -1,0 +1,42 @@
+{
+  "id": "SF-011",
+  "version": 1,
+  "name": "Security group opens administrative port",
+  "source": "cloud",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "security_group_update"
+    },
+    {
+      "field": "data.public",
+      "op": "eq",
+      "value": true
+    },
+    {
+      "field": "data.port",
+      "op": "in",
+      "value": [
+        22,
+        3389
+      ]
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1021",
+    "tactic": "lateral-movement",
+    "relationship": "enabling_control",
+    "url": "https://attack.mitre.org/techniques/T1021/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "NETWORK"
+  ],
+  "playbook": "network_isolate",
+  "false_positives": "Approved temporary support tunnel",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for network isolate.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

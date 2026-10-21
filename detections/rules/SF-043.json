@@ -1,0 +1,34 @@
+{
+  "id": "SF-043",
+  "version": 1,
+  "name": "Wallet transfer to flagged recipient",
+  "source": "web3",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "transfer"
+    },
+    {
+      "field": "data.known_bad",
+      "op": "eq",
+      "value": true
+    }
+  ],
+  "severity": "critical",
+  "attack": {
+    "technique": "T1657",
+    "tactic": "impact",
+    "relationship": "web3_analogy",
+    "url": "https://attack.mitre.org/techniques/T1657/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "IR"
+  ],
+  "playbook": "wallet_review",
+  "false_positives": "Incorrect lab blocklist entry",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

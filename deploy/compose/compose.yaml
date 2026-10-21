@@ -1,0 +1,66 @@
+name: securefi
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: securefi
+      POSTGRES_USER: securefi
+      POSTGRES_PASSWORD: ${SECUREFI_POSTGRES_PASSWORD:?Set a sandbox database password}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    networks: [data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U securefi]
+      interval: 5s
+      retries: 12
+    restart: unless-stopped
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: securefi
+      RABBITMQ_DEFAULT_PASS: ${SECUREFI_RABBIT_PASSWORD:?Set a sandbox broker password}
+    healthcheck:
+      test: [CMD, rabbitmq-diagnostics, -q, ping]
+      interval: 5s
+      retries: 20
+    networks: [data]
+    volumes: [rabbit-data:/var/lib/rabbitmq]
+    restart: unless-stopped
+  api:
+    build: {context: ../..}
+    read_only: true
+    user: "10001:10001"
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      SECUREFI_DATABASE_URL: postgresql://securefi:${SECUREFI_POSTGRES_PASSWORD}@postgres:5432/securefi
+      SECUREFI_AUTH_FILE: /run/securefi/access.json
+      SECUREFI_ALLOWED_HOSTS: 127.0.0.1,localhost
+    volumes: [../../data/container-secrets/access.json:/run/securefi/access.json:ro]
+    networks: [edge,data]
+    depends_on:
+      postgres: {condition: service_healthy}
+  worker:
+    build: {context: ../..}
+    command: [python, -m, services.queue_bridge]
+    restart: on-failure
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp]
+    environment:
+      SECUREFI_DATABASE_URL: postgresql://securefi:${SECUREFI_POSTGRES_PASSWORD}@postgres:5432/securefi
+      SECUREFI_AUTH_FILE: /run/securefi/access.json
+      SECUREFI_AMQP_URL: amqp://securefi:${SECUREFI_RABBIT_PASSWORD}@rabbitmq:5672/%2F
+    volumes: [../../data/container-secrets/access.json:/run/securefi/access.json:ro]
+    networks: [data]
+    depends_on:
+      postgres: {condition: service_healthy}
+      rabbitmq: {condition: service_healthy}
+volumes:
+  postgres-data: {}
+  rabbit-data: {}
+networks:
+  edge: {}
+  data: {internal: true}

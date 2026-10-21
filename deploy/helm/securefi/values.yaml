@@ -1,0 +1,5 @@
+image: securefi:2.1.0
+imagePullPolicy: Never
+replicas: 1
+existingRuntimeSecret: securefi-runtime # pragma: allowlist secret; Kubernetes object name
+existingAccessSecret: securefi-access # pragma: allowlist secret; Kubernetes object name

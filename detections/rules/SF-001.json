@@ -1,0 +1,40 @@
+{
+  "id": "SF-001",
+  "version": 1,
+  "name": "Failed sign-in burst",
+  "source": "identity",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "login"
+    },
+    {
+      "field": "data.result",
+      "op": "eq",
+      "value": "failure"
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1110",
+    "tactic": "credential-access",
+    "relationship": "direct",
+    "url": "https://attack.mitre.org/techniques/T1110/"
+  },
+  "confidence": 0.8,
+  "controls": [
+    "IAM"
+  ],
+  "playbook": "identity_containment",
+  "false_positives": "Expired test passwords or an incorrectly configured service",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for identity containment.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required.",
+  "correlation": {
+    "kind": "count",
+    "group": "principal",
+    "seconds": 300,
+    "threshold": 5
+  }
+}

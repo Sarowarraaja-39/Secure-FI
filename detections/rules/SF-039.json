@@ -1,0 +1,34 @@
+{
+  "id": "SF-039",
+  "version": 1,
+  "name": "AI feature distribution drift",
+  "source": "ai",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "model_metrics"
+    },
+    {
+      "field": "data.drift",
+      "op": "gte",
+      "value": 0.25
+    }
+  ],
+  "severity": "medium",
+  "attack": {
+    "technique": "T1565.001",
+    "tactic": "impact",
+    "relationship": "analogy_not_attack_specific",
+    "url": "https://attack.mitre.org/techniques/T1565/001/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "MODEL"
+  ],
+  "playbook": "model_rollback",
+  "false_positives": "Seasonal business change; drift is not proof of an attack",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for model rollback.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}

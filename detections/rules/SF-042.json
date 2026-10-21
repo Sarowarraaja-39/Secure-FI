@@ -1,0 +1,39 @@
+{
+  "id": "SF-042",
+  "version": 1,
+  "name": "Wallet unlimited token approval",
+  "source": "web3",
+  "conditions": [
+    {
+      "field": "data.operation",
+      "op": "eq",
+      "value": "approval"
+    },
+    {
+      "field": "data.allowance",
+      "op": "gte",
+      "value": 1000000
+    },
+    {
+      "field": "data.approved",
+      "op": "eq",
+      "value": false
+    }
+  ],
+  "severity": "high",
+  "attack": {
+    "technique": "T1657",
+    "tactic": "impact",
+    "relationship": "web3_analogy",
+    "url": "https://attack.mitre.org/techniques/T1657/"
+  },
+  "confidence": 0.6,
+  "controls": [
+    "DATA"
+  ],
+  "playbook": "wallet_review",
+  "false_positives": "Test router requires a broad approval",
+  "response": "Open a case, preserve the event IDs, validate context, then request approval for wallet review.",
+  "risk_method": "min(100, severity + 3*(criticality-1) + internet_exposed*10 + known_exploited*15)",
+  "validation": "Positive and negative synthetic fixture plus tenant-isolation tests; production tuning required."
+}
